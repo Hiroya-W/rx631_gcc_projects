@@ -1,0 +1,5 @@
+*.elf
+*.mot
+*.lst
+*.map
+*.o
