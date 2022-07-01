@@ -1,0 +1,51 @@
+   1                             		.file	"hwinit.c"
+   2                             		.section P,"ax"
+   3                             	.Ltext0:
+   4                             		.section	.text.HardwareSetup,"ax",@progbits
+   5                             		.global	_HardwareSetup
+   7                             	_HardwareSetup:
+   8                             	.LFB0:
+   9                             		.file 1 "../generate/hwinit.c"
+   1:../generate/hwinit.c **** /************************************************************************/
+   2:../generate/hwinit.c **** /*    File Version: V1.00                                               */
+   3:../generate/hwinit.c **** /*    Date Generated: 08/07/2013                                        */
+   4:../generate/hwinit.c **** /************************************************************************/
+   5:../generate/hwinit.c **** 
+   6:../generate/hwinit.c **** #include "iodefine.h"
+   7:../generate/hwinit.c **** #ifdef __cplusplus
+   8:../generate/hwinit.c **** extern "C" {
+   9:../generate/hwinit.c **** #endif
+  10:../generate/hwinit.c **** extern void HardwareSetup(void);
+  11:../generate/hwinit.c **** #ifdef __cplusplus
+  12:../generate/hwinit.c **** }
+  13:../generate/hwinit.c **** #endif
+  14:../generate/hwinit.c **** 
+  15:../generate/hwinit.c **** void HardwareSetup(void)
+  16:../generate/hwinit.c **** {
+  10                             		.loc 1 16 1
+  11 0000 7E AA                   		push.l	r10
+  12                             	.LCFI0:
+  13 0002 EF 0A                   		mov.L	r0, r10
+  14                             	.LCFI1:
+  17:../generate/hwinit.c **** /*
+  18:../generate/hwinit.c ****  BSC.CS0MOD.WORD = 0x1234;
+  19:../generate/hwinit.c ****  BSC.CS7CNT.WORD = 0x5678;
+  20:../generate/hwinit.c ****   
+  21:../generate/hwinit.c ****  SCI0.SCR.BIT.TE  = 0;
+  22:../generate/hwinit.c ****  SCI0.SCR.BIT.RE  = 0;
+  23:../generate/hwinit.c ****  SCI0.SCR.BIT.TE  = 1;
+  24:../generate/hwinit.c ****  SCI2.SSR.BIT.PER = 0;
+  25:../generate/hwinit.c **** 
+  26:../generate/hwinit.c ****  TMR0.TCR.BYTE = 0x12;
+  27:../generate/hwinit.c ****  TMR1.TCR.BYTE = 0x12;
+  28:../generate/hwinit.c ****  TMR2.TCR.BYTE = 0x12;
+  29:../generate/hwinit.c ****  
+  30:../generate/hwinit.c ****  P0.DDR.BYTE = 0x12;
+  31:../generate/hwinit.c ****  P1.DDR.BYTE = 0x12;
+  32:../generate/hwinit.c **** */
+  33:../generate/hwinit.c **** }
+  15                             		.loc 1 33 1
+  16 0004 03                      		nop
+  17 0005 3F AA 01                		rtsd	#4, r10-r10
+  18                             	.LFE0:
+  56                             	.Letext0:
