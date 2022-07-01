@@ -33,7 +33,7 @@ generate/vects.o: generate/vects.c
 .PHONY: clean
 clean:
 	-rm generate/*.d src/*.d
-	-rm generate/*.o src/*.d
+	-rm generate/*.o src/*.o
 	-rm ./*.lst
 	-rm gcc_rx_project.elf
 	-rm gcc_rx_project.lst
