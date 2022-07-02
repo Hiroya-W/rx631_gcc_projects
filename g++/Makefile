@@ -14,12 +14,15 @@ OBJS = $(addprefix $(BUILD)/, $(patsubst %.S, %.o, $(ASRCS))) \
 LIBS =
 LINKER = ./generate/linker_script.ld
 
-.PHONY: all clean
+.PHONY: all clean flash
 
 all: $(PROJECT_NAME).elf $(PROJECT_NAME).mot $(PROJECT_NAME).siz
 
 clean:
 	rm -rf $(BUILD) *.elf *.map *.mot
+
+flash:
+	rx_prog --verbose --progress --speed=115200 --device=RX631 --write $(PROJECT_NAME).mot
 
 $(PROJECT_NAME).elf: $(OBJS)
 	$(CP) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 \
