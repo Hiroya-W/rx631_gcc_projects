@@ -1,23 +1,25 @@
+PROJECT_NAME = gcc_rx_project
+
 CC = rx-elf-gcc
 CP = rx-elf-g++
 
-OBJS = ./src/gcc_rx_project.o  ./generate/hwinit.o ./generate/inthandler.o ./generate/start.o ./generate/vects.o
+OBJS = ./src/main.o  ./generate/hwinit.o ./generate/inthandler.o ./generate/start.o ./generate/vects.o
 LIBS =
 LINKER = ./generate/linker_script.ld
 
-all: gcc_rx_project.elf gcc_rx_project.mot gcc_rx_project.siz
+all: $(PROJECT_NAME).elf $(PROJECT_NAME).mot $(PROJECT_NAME).siz
 
-gcc_rx_project.elf: $(OBJS)
-	$(CP) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -o "gcc_rx_project.elf" $(OBJS) $(USER_OBJS) $(LIBS) -T $(LINKER) -Wl,--start-group -lm -lc -lgcc -lstdc++ -Wl,--end-group -nostartfiles -Wl,-e_PowerON_Reset -Wl,-M=gcc_rx_project.map
+$(PROJECT_NAME).elf: $(OBJS)
+	$(CP) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -o "$(PROJECT_NAME).elf" $(OBJS) $(USER_OBJS) $(LIBS) -T $(LINKER) -Wl,--start-group -lm -lc -lgcc -lstdc++ -Wl,--end-group -nostartfiles -Wl,-e_PowerON_Reset -Wl,-M=$(PROJECT_NAME).map
 
-gcc_rx_project.mot: gcc_rx_project.elf
-	rx-elf-objcopy "gcc_rx_project.elf" -O srec -I elf32-rx-be-ns  "gcc_rx_project.mot"
+$(PROJECT_NAME).mot: $(PROJECT_NAME).elf
+	rx-elf-objcopy "$(PROJECT_NAME).elf" -O srec -I elf32-rx-be-ns  "$(PROJECT_NAME).mot"
 
-gcc_rx_project.siz: gcc_rx_project.elf
-	rx-elf-size --format=berkeley "gcc_rx_project.elf"
+$(PROJECT_NAME).siz: $(PROJECT_NAME).elf
+	rx-elf-size --format=berkeley "$(PROJECT_NAME).elf"
 
-src/gcc_rx_project.o: src/gcc_rx_project.cpp
-	$(CP) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -I./generate -DCPPAPP -Wa,-adlnh="gcc_rx_project.lst" -MMD -MP -MF"src/gcc_rx_project.d" -MT"src/gcc_rx_project.o"  -c "src/gcc_rx_project.cpp" -o "src/gcc_rx_project.o"
+src/main.o: src/main.cpp
+	$(CP) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -I./generate -DCPPAPP -Wa,-adlnh="main.lst" -MMD -MP -MF"src/main.d" -MT"src/main.o"  -c "src/main.cpp" -o "src/main.o"
 
 generate/start.o: generate/start.S
 	$(CC) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -x assembler-with-cpp -Wa,--gdwarf2 -DCPPAPP -I./src -Wa,-adlhn="start.lst" -MMD -MP -MF"generate/start.d" -MT"generate/start.o" -c "generate/start.S" -o "generate/start.o"
@@ -36,7 +38,7 @@ clean:
 	-rm generate/*.d src/*.d
 	-rm generate/*.o src/*.o
 	-rm ./*.lst
-	-rm gcc_rx_project.elf
-	-rm gcc_rx_project.lst
-	-rm gcc_rx_project.map
-	-rm gcc_rx_project.mot
+	-rm $(PROJECT_NAME).elf
+	-rm $(PROJECT_NAME).lst
+	-rm $(PROJECT_NAME).map
+	-rm $(PROJECT_NAME).mot
