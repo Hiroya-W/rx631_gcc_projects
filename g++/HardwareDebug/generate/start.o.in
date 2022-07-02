@@ -1,1 +1,0 @@
--O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -x assembler-with-cpp -Wa,--gdwarf2 -DCPPAPP -I"C:/Users/HIRO/e2_studio/workspace2/gcc_rx_project/src" -Wa,-adlhn="start.lst" -MMD -MP -MF"generate/start.d" -MT"generate/start.o" -c "../generate/start.S" -o "generate/start.o"
