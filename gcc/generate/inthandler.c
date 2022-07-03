@@ -8,6 +8,8 @@
 
 #include "interrupt_handlers.h"
 
+extern void read_spdr_gyro(void);
+
 /* INT_Exception(Supervisor Instruction)*/
 void INT_Excep_SuperVisorInst(void){/* brk(); */}
 
@@ -75,7 +77,9 @@ void INT_Excep_USB1_D1FIFO1(void){ }
 void INT_Excep_USB1_USBI1(void){ }
 
 /* RSPI0 SPRI0*/
-void INT_Excep_RSPI0_SPRI0(void){ }
+void INT_Excep_RSPI0_SPRI0(void){
+    read_spdr_gyro();
+}
 
 /* RSPI0 SPTI0*/
 void INT_Excep_RSPI0_SPTI0(void){ }

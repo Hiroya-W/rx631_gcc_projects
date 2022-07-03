@@ -1,6 +1,6 @@
 CC = rx-elf-gcc
 
-OBJS = ./src/gcc_rx_project.o  ./generate/hwinit.o ./generate/inthandler.o ./generate/start.o ./generate/vects.o
+OBJS = ./src/gcc_rx_project.o  ./generate/hwinit.o ./generate/inthandler.o ./generate/start.o ./generate/vects.o ./generate/spi.o ./generate/sci.o
 LIBS =
 LINKER = ./generate/linker_script.ld
 
@@ -29,6 +29,12 @@ generate/inthandler.o: generate/inthandler.c
 
 generate/vects.o: generate/vects.c
 	$(CC) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -I./generate -Wa,-adlnh="vects.lst" -MMD -MP -MF"generate/vects.d" -MT"generate/vects.o" "generate/vects.c" -c -o "generate/vects.o"
+
+generate/spi.o: generate/spi.c
+	$(CC) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -I./generate -Wa,-adlnh="spi.lst" -MMD -MP -MF"generate/spi.d" -MT"generate/spi.o" "generate/spi.c" -c -o "generate/spi.o"
+
+generate/sci.o: generate/sci.c
+	$(CC) -O0 -ffunction-sections -fdata-sections -fdiagnostics-parseable-fixits -Wstack-usage=100 -g2 -mcpu=rx600 -misa=v1 -mlittle-endian-data -I./generate -Wa,-adlnh="sci.lst" -MMD -MP -MF"generate/sci.d" -MT"generate/sci.o" "generate/sci.c" -c -o "generate/sci.o"
 
 .PHONY: clean
 clean:
