@@ -33,31 +33,35 @@ build/$(PROJECT_NAME).elf: $(OBJS)
 	$(CP) $(CFLAGS) -o $@ $(OBJS) -T $(LINKER) -Wl,--start-group -lm -lc -lgcc -lstdc++ -Wl,--end-group -nostartfiles -Wl,-e_PowerON_Reset -Wl,-M=build/$(PROJECT_NAME).map
 
 build/$(PROJECT_NAME).mot: build/$(PROJECT_NAME).elf
-	rx-elf-objcopy $^ -O srec -I elf32-rx-be-ns $@
+	rx-elf-objcopy $< -O srec -I elf32-rx-be-ns $@
 
 build/$(PROJECT_NAME).siz: build/$(PROJECT_NAME).elf
 	rx-elf-size --format=berkeley $^
 
 build/generate/start.o: generate/start.S
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -x assembler-with-cpp -Wa,--gdwarf2 -DCPPAPP -I./src -Wa,-adlhn=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $^ -o $@
+	$(CC) $(CFLAGS) -x assembler-with-cpp -Wa,--gdwarf2 -DCPPAPP -I./src -Wa,-adlhn=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $< -o $@
 
 build/src/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
-	$(CP) $(CFLAGS) $(INCLUDE) -DCPPAPP -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@  -c $^ -o $@
+	$(CP) $(CFLAGS) $(INCLUDE) -DCPPAPP -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@  -c $< -o $@
 
 build/include/%.o: include/%.cpp
 	@mkdir -p $(dir $@)
-	$(CP) $(CFLAGS) $(INCLUDE) -DCPPAPP -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@  -c $^ -o $@
+	$(CP) $(CFLAGS) $(INCLUDE) -DCPPAPP -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@  -c $< -o $@
 
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $^ -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $< -o $@
 
 build/include/%.o: include/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $^ -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $< -o $@
 
 build/generate/%.o: generate/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $^ -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -Wa,-adlnh=$(patsubst %.o,%.lst,$@) -MMD -MP -MF$(patsubst %.o,%.d,$@) -MT$@ -c $< -o $@
+
+-include build/*.d
+-include build/generate/*.d
+-include build/include/*.d
